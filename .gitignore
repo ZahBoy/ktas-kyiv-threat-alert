@@ -37,6 +37,8 @@ summarize*.py
 test_parse*.py
 test_user*.py
 count*.py
+generate_documents.py
+test_converter.py
 temp_*
 turns_summary.txt
 timeline.txt
