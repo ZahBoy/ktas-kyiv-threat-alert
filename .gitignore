@@ -39,6 +39,9 @@ test_user*.py
 count*.py
 parse_*.py
 generate_documents.py
+generate_final_transcripts.py
+build_transcript_data.py
+verify_html.py
 test_converter.py
 temp_*
 turns_summary.txt

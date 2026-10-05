@@ -288,7 +288,10 @@ d:\Agentic AI\
 ├── docs/                       # Повна проєктна документація
 │   ├── specs/kyiv_threat_alert_system_spec.md  # Детальний архітектурний дизайн
 │   ├── plans/implementation_plan.md            # Інженерний план реалізації
-│   └── walkthrough.md                          # Посібник з верифікації
+│   ├── walkthrough.md                          # Посібник з верифікації
+│   ├── kse_application_essay.md                # Есе апліканта KSE Agentic AI School
+│   ├── KTAS_Full_Conversation_Transcript.md    # Повна стенограма сесії розробки (Markdown)
+│   └── KTAS_Full_Conversation_Transcript.html  # Інтерактивна веб-стенограма розробки (HTML)
 │
 └── .github/workflows/
     └── build-apk.yml           # CI/CD автоматизація збірки та релізів
@@ -299,6 +302,8 @@ d:\Agentic AI\
 * 📋 [План імплементації та матриця середовища](docs/plans/implementation_plan.md)
 * 🔍 [Повний Walkthrough та результати тестування](docs/walkthrough.md)
 * ✍️ [Есе апліканта KSE Agentic AI School (English, <250 words)](docs/kse_application_essay.md)
+* 📑 [Повна стенограма сесії розробки та мислення AI-агента (Full Transcript MD)](docs/KTAS_Full_Conversation_Transcript.md)
+* 🌐 [Інтерактивна веб-версія стенограми розробки (HTML)](docs/KTAS_Full_Conversation_Transcript.html)
 
 ---
 
