@@ -21,6 +21,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.core.content.ContextCompat
 import com.ktas.alert.data.ThreatEvent
+import com.ktas.alert.data.ThreatScope
+import com.ktas.alert.data.ThreatType
+import com.ktas.alert.data.ThreatUrgency
 import com.ktas.alert.data.UserPreferencesRepository
 import com.ktas.alert.service.AlertNotificationManager
 import com.ktas.alert.ui.screens.AudioTestScreen
@@ -86,7 +89,101 @@ class MainActivity : ComponentActivity() {
         val selectedDistricts by prefsRepo.selectedDistricts.collectAsState(initial = setOf("Obolonskyi"))
         val radiusKm by prefsRepo.radiusKm.collectAsState(initial = 5.0f)
         val respectHeading by prefsRepo.respectHeading.collectAsState(initial = true)
-        val sampleEvents = remember { mutableStateListOf<ThreatEvent>() }
+
+        var activeThreat by remember { mutableStateOf<ThreatEvent?>(null) }
+
+        val sampleEvents = remember {
+            mutableStateListOf(
+                ThreatEvent(
+                    eventId = "hist_1",
+                    threatType = ThreatType.BALLISTIC,
+                    scope = ThreatScope.CITY_WIDE,
+                    urgency = ThreatUrgency.CRITICAL,
+                    title = "Загроза балістики: Київ!",
+                    description = "Швидкісна ціль з півночі в напрямку столиці. Всім негайно в укриття!",
+                    targetDistricts = listOf("Весь Київ"),
+                    sourceChannel = "@kpszsu",
+                    timestampUtc = System.currentTimeMillis() / 1000 - 1800
+                ),
+                ThreatEvent(
+                    eventId = "hist_2",
+                    threatType = ThreatType.UAV_SHAHED,
+                    scope = ThreatScope.SPATIAL_POLYGON,
+                    urgency = ThreatUrgency.WARNING,
+                    title = "Шахед з Вишгорода курсом на Оболонь",
+                    description = "БПЛА заходить у північний сектор Києва. Робота ППО.",
+                    targetDistricts = listOf("Оболонський"),
+                    sourceChannel = "@monitor_war",
+                    timestampUtc = System.currentTimeMillis() / 1000 - 3600
+                ),
+                ThreatEvent(
+                    eventId = "hist_3",
+                    threatType = ThreatType.ALL_CLEAR,
+                    scope = ThreatScope.SPATIAL_POLYGON,
+                    urgency = ThreatUrgency.INFO,
+                    title = "Оболонь — чисто, ціль збито",
+                    description = "Локальний відбій небезпеки для вашого району.",
+                    targetDistricts = listOf("Оболонський"),
+                    sourceChannel = "@vanek_nikolaev",
+                    timestampUtc = System.currentTimeMillis() / 1000 - 3200
+                )
+            )
+        }
+
+        fun triggerDemoBallistic() {
+            val event = ThreatEvent(
+                eventId = "demo_bal_${System.currentTimeMillis()}",
+                threatType = ThreatType.BALLISTIC,
+                scope = ThreatScope.CITY_WIDE,
+                urgency = ThreatUrgency.CRITICAL,
+                title = "⚠️ БАЛІСТИКА: КИЇВ!",
+                description = "Зафіксовано пуск балістичної ракети. Негайно в безпечне місце!",
+                targetDistricts = listOf("Весь Київ"),
+                sourceChannel = "@monitor_war",
+                timestampUtc = System.currentTimeMillis() / 1000
+            )
+            activeThreat = event
+            sampleEvents.add(0, event)
+            if (ballisticsEnabled) {
+                alertManager.triggerBallisticAlert(event.title, event.description)
+            }
+        }
+
+        fun triggerDemoUav() {
+            val event = ThreatEvent(
+                eventId = "demo_uav_${System.currentTimeMillis()}",
+                threatType = ThreatType.UAV_SHAHED,
+                scope = ThreatScope.SPATIAL_POLYGON,
+                urgency = ThreatUrgency.CRITICAL,
+                title = "🚨 БПЛА: ОБОЛОНЬ",
+                description = "Шахед наближається до Оболонського району. Дистанція 4 км.",
+                targetDistricts = listOf("Оболонський"),
+                sourceChannel = "@vanek_nikolaev",
+                timestampUtc = System.currentTimeMillis() / 1000
+            )
+            activeThreat = event
+            sampleEvents.add(0, event)
+            if (selectedDistricts.contains("Obolonskyi")) {
+                alertManager.triggerUavSiren(event.title, event.description)
+            }
+        }
+
+        fun triggerDemoClear() {
+            val event = ThreatEvent(
+                eventId = "demo_clear_${System.currentTimeMillis()}",
+                threatType = ThreatType.ALL_CLEAR,
+                scope = ThreatScope.SPATIAL_POLYGON,
+                urgency = ThreatUrgency.INFO,
+                title = "✅ ВІДБІЙ: ЧИСТО",
+                description = "Загроза минула. Небезпеки для вашого району немає.",
+                targetDistricts = listOf("Оболонський"),
+                sourceChannel = "@monitor_war",
+                timestampUtc = System.currentTimeMillis() / 1000
+            )
+            activeThreat = null
+            sampleEvents.add(0, event)
+            alertManager.triggerAllClear(event.title, event.description)
+        }
 
         Scaffold(
             containerColor = BgDark,
@@ -121,9 +218,14 @@ class MainActivity : ComponentActivity() {
                     Screen.Dashboard -> DashboardScreen(
                         ballisticsEnabled = ballisticsEnabled,
                         selectedDistricts = selectedDistricts,
+                        activeThreat = activeThreat,
                         onToggleBallistics = { enabled ->
                             coroutineScope.launch { prefsRepo.setBallisticsEnabled(enabled) }
                         },
+                        onTriggerBallistic = { triggerDemoBallistic() },
+                        onTriggerUav = { triggerDemoUav() },
+                        onTriggerClear = { triggerDemoClear() },
+                        onStopSound = { alertManager.stopSound() },
                         onNavigateToAudioTest = { currentScreen = Screen.AudioTest }
                     )
                     Screen.Settings -> SettingsScreen(
@@ -145,27 +247,10 @@ class MainActivity : ComponentActivity() {
                         }
                     )
                     Screen.AudioTest -> AudioTestScreen(
-                        onTestBallistic = {
-                            alertManager.triggerBallisticAlert(
-                                "⚠️ ТЕСТ: Балістична загроза!",
-                                "Перевірка пробивання беззвучного режиму DND для балістики."
-                            )
-                        },
-                        onTestUav = {
-                            alertManager.triggerUavSiren(
-                                "🚨 ТЕСТ: Сирена БПЛА!",
-                                "Перевірка хвилеподібної сирени району."
-                            )
-                        },
-                        onTestClear = {
-                            alertManager.triggerAllClear(
-                                "✅ ТЕСТ: Відбій загрози",
-                                "Перевірка спокійного сигналу відбою."
-                            )
-                        },
-                        onStopSound = {
-                            alertManager.stopSound()
-                        }
+                        onTestBallistic = { triggerDemoBallistic() },
+                        onTestUav = { triggerDemoUav() },
+                        onTestClear = { triggerDemoClear() },
+                        onStopSound = { alertManager.stopSound() }
                     )
                     Screen.ThreatFeed -> ThreatFeedScreen(events = sampleEvents)
                 }
