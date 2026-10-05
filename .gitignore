@@ -49,3 +49,5 @@ timeline.txt
 user_entries.txt
 
 audit_transcript.py
+build_perfect_transcripts.py
+verify_transcripts.py
