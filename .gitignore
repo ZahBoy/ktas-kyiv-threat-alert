@@ -47,3 +47,5 @@ temp_*
 turns_summary.txt
 timeline.txt
 user_entries.txt
+
+audit_transcript.py
