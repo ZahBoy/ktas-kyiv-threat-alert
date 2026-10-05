@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "text": "Київ — загроза балістики з Брянщини!",
+    "channel": "@monitor_war",
+    "expected_threat_type": "BALLISTIC",
+    "expected_scope": "CITY_WIDE",
+    "category": "Ballistic Alert"
+  },
+  {
+    "id": 2,
+    "text": "Швидкісна ціль на Київ з півночі! В укриття!",
+    "channel": "@kpszsu",
+    "expected_threat_type": "BALLISTIC",
+    "expected_scope": "CITY_WIDE",
+    "category": "Ballistic Alert"
+  },
+  {
+    "id": 3,
+    "text": "Зафіксовано пуск балістики (Іскандер-М) у бік столиці!",
+    "channel": "@vanek_nikolaev",
+    "expected_threat_type": "BALLISTIC",
+    "expected_scope": "CITY_WIDE",
+    "category": "Ballistic Alert"
+  },
+  {
+    "id": 4,
+    "text": "Пуск Кинджала з МіГ-31К в напрямку Києва!",
+    "channel": "@monitor_war",
+    "expected_threat_type": "BALLISTIC",
+    "expected_scope": "CITY_WIDE",
+    "category": "Ballistic Alert"
+  },
+  {
+    "id": 5,
+    "text": "Шахед з Вишгорода курсом на Оболонь",
+    "channel": "@monitor_war",
+    "expected_threat_type": "UAV_SHAHED",
+    "expected_target_districts": ["Obolonskyi"],
+    "category": "UAV Obolon Approach"
+  },
+  {
+    "id": 6,
+    "text": "2 БПЛА над Вишгородським районом, підлітають до Оболонського району Києва",
+    "channel": "@kpszsu",
+    "expected_threat_type": "UAV_SHAHED",
+    "expected_target_districts": ["Obolonskyi"],
+    "category": "UAV Obolon Approach"
+  },
+  {
+    "id": 7,
+    "text": "БПЛА з півночі рухається в напрямку Подолу та Куренівки",
+    "channel": "@monitor_war",
+    "expected_threat_type": "UAV_SHAHED",
+    "expected_target_districts": ["Podilskyi"],
+    "category": "UAV Podil Sector"
+  },
+  {
+    "id": 8,
+    "text": "2 БПЛА через Бровари на Дарницький район",
+    "channel": "@vanek_nikolaev",
+    "expected_threat_type": "UAV_SHAHED",
+    "expected_target_districts": ["Darnytskyi"],
+    "category": "UAV Left Bank"
+  },
+  {
+    "id": 9,
+    "text": "Шахед з Борисполя курсом на Позняки та Осокорки",
+    "channel": "@monitor_war",
+    "expected_threat_type": "UAV_SHAHED",
+    "expected_target_districts": ["Darnytskyi"],
+    "category": "UAV Left Bank"
+  },
+  {
+    "id": 10,
+    "text": "Дрон через Ірпінь в напрямку Святошинського району",
+    "channel": "@kpszsu",
+    "expected_threat_type": "UAV_SHAHED",
+    "expected_target_districts": ["Sviatoshynskyi"],
+    "category": "UAV West Sector"
+  },
+  {
+    "id": 11,
+    "text": "БПЛА через Глеваху курсом на Солом'янський район",
+    "channel": "@monitor_war",
+    "expected_threat_type": "UAV_SHAHED",
+    "expected_target_districts": ["Solomianskyi"],
+    "category": "UAV Southwest Sector"
+  },
+  {
+    "id": 12,
+    "text": "БПЛА на півдні Київщини, курс на Білу Церкву",
+    "channel": "@kpszsu",
+    "expected_threat_type": "UAV_SHAHED",
+    "expected_target_districts": [],
+    "category": "Transit (Outside City)"
+  },
+  {
+    "id": 13,
+    "text": "Шахеди повз Фастів на Житомирщину, для Києва загрози немає",
+    "channel": "@vanek_nikolaev",
+    "expected_threat_type": "UAV_SHAHED",
+    "expected_target_districts": [],
+    "category": "Transit (Outside City)"
+  },
+  {
+    "id": 14,
+    "text": "Оболонь — чисто, ціль збито",
+    "channel": "@monitor_war",
+    "expected_threat_type": "ALL_CLEAR",
+    "expected_target_districts": ["Obolonskyi"],
+    "category": "Local District Clear"
+  },
+  {
+    "id": 15,
+    "text": "Відбій загрози по місту Києву",
+    "channel": "@kpszsu",
+    "expected_threat_type": "ALL_CLEAR",
+    "expected_target_districts": ["ALL"],
+    "category": "City-Wide All Clear"
+  }
+]

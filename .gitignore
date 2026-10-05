@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+.venv/
+env/
+venv/
+
+# Android & Gradle
+.gradle/
+build/
+*/build/
+app/build/
+*.iml
+.idea/
+local.properties
+.navigation/
+captures/
+output.json
+.externalNativeBuild
+.cxx
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
