@@ -29,3 +29,15 @@ output.json
 Thumbs.db
 *.swp
 *.bak
+
+# Scratch scripts & temporary analysis
+inspect*.py
+analyze*.py
+summarize*.py
+test_parse*.py
+test_user*.py
+count*.py
+temp_*
+turns_summary.txt
+timeline.txt
+user_entries.txt
